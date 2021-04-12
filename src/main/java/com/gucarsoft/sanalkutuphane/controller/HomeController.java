@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class HomeController {
 
-    //@PreAuthorize("hasAnyAuthority('ADMIN','MODERATOR','USER')")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/test")
     public ResponseEntity workingTest(){
         return new ResponseEntity("Merhaba",HttpStatus.OK);
