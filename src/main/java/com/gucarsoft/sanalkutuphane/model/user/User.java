@@ -1,5 +1,6 @@
 package com.gucarsoft.sanalkutuphane.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gucarsoft.sanalkutuphane.model.BaseEntity;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,16 +19,23 @@ public class User extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private boolean isOnline;
     private Long lastRoom;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private boolean canSendMessage;
+    private Long reportCount;
 
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
+
+
 
 }
