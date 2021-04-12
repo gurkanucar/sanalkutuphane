@@ -14,5 +14,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     List<User> findAllByLastRoom(Long id);
 
-    List<User> findAllByOnlineTrue();
+    List<User> findAllByOnlineIsTrue();
 }

@@ -23,7 +23,7 @@ public class User extends BaseEntity {
     @JsonIgnore
     private String password;
 
-    private boolean isOnline;
+    private boolean online;
     private Long lastRoom;
 
     @Enumerated(EnumType.STRING)

@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public ResponseEntity<Long> getUserCount() {
-        return new ResponseEntity<Long>((long) userRepo.findAllByOnlineTrue().size(), HttpStatus.OK);
+        return new ResponseEntity<Long>((long) userRepo.findAllByOnlineIsTrue().size(), HttpStatus.OK);
     }
 
     @Override
