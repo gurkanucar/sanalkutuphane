@@ -17,6 +17,7 @@ public interface RoomService {
     ResponseEntity<Room> disableReadOnly(Long id);
     ResponseEntity<Room> makeAvailable(Long id);
     ResponseEntity<Room> makeNotAvailable(Long id);
-
+    ResponseEntity<Room> joinRoom(Long id,String username);
+    ResponseEntity<Room> exit(String username);
 
 }

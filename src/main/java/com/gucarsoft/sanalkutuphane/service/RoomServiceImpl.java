@@ -1,6 +1,7 @@
 package com.gucarsoft.sanalkutuphane.service;
 
 import com.gucarsoft.sanalkutuphane.model.Room;
+import com.gucarsoft.sanalkutuphane.model.user.User;
 import com.gucarsoft.sanalkutuphane.repository.RoomRepository;
 import com.gucarsoft.sanalkutuphane.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +59,9 @@ public class RoomServiceImpl implements RoomService{
         Room room= roomRepo.findById(id).orElse(null);
         if(room!=null){
             room.setAvailable(true);
+            return new ResponseEntity<Room>(roomRepo.save(room), HttpStatus.OK);
         }
-        return new ResponseEntity<Room>(roomRepo.save(room), HttpStatus.OK);
+        return new ResponseEntity<Room>(HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -67,8 +69,32 @@ public class RoomServiceImpl implements RoomService{
         Room room= roomRepo.findById(id).orElse(null);
         if(room!=null){
             room.setAvailable(false);
+            return new ResponseEntity<Room>(roomRepo.save(room), HttpStatus.OK);
         }
-        return new ResponseEntity<Room>(roomRepo.save(room), HttpStatus.OK);
+        return new ResponseEntity<Room>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<Room> joinRoom(Long id,String username) {
+        User user = userRepo.findByUsername(username);
+        if (user != null) {
+            user.setLastRoom(id);
+            user.setOnline(true);
+            userRepo.save(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Room> exit(String username) {
+        User user = userRepo.findByUsername(username);
+        if (user != null) {
+            user.setLastRoom(0L);
+            userRepo.save(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return null;
     }
 
     @Override

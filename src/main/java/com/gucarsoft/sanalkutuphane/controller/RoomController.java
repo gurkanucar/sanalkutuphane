@@ -4,6 +4,7 @@ import com.gucarsoft.sanalkutuphane.model.Room;
 import com.gucarsoft.sanalkutuphane.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Room> deleteUserById(@PathVariable Long id) {
+    public ResponseEntity<Room> deleteById(@PathVariable Long id) {
         return service.deleteById(id);
     }
 
@@ -69,6 +70,19 @@ public class RoomController {
         return service.disableReadOnly(id);
     }
 
+    @GetMapping("/join/{id}")
+    public ResponseEntity<Room> joinRoom(@PathVariable Long id) {
+        return service.joinRoom(id,getAuthUserName());
+    }
+
+    @GetMapping("/exit")
+    public ResponseEntity<Room> exitRoom() {
+        return service.exit(getAuthUserName());
+    }
+
+    String getAuthUserName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 
 }
 

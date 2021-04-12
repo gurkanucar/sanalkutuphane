@@ -2,11 +2,14 @@ package com.gucarsoft.sanalkutuphane.service;
 
 import com.gucarsoft.sanalkutuphane.model.Room;
 import com.gucarsoft.sanalkutuphane.model.message.Message;
+import com.gucarsoft.sanalkutuphane.model.user.User;
 import com.gucarsoft.sanalkutuphane.repository.MessageRepository;
 import com.gucarsoft.sanalkutuphane.repository.RoomRepository;
+import com.gucarsoft.sanalkutuphane.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +23,23 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     RoomRepository roomRepo;
 
+    @Autowired
+    UserRepository userRepository;
+
+    public String getAuthUserName() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+
     @Override
     public ResponseEntity<Message> create(Message message) {
-        Room room=message.getRoom();
-        if(room.isAvailable()==true && room.isReadOnly()==false){
+        Room room=roomRepo.findById(message.getRoom().getId()).orElse(null);
+        User user = userRepository.findByUsername(getAuthUserName());
+        message.setUser(user);
+
+        if(room.isAvailable() && !room.isReadOnly()){
+            user.setOnline(true);
+            user.setLastRoom(room.getId());
             return new ResponseEntity<Message>(messageRepo.save(message), HttpStatus.OK);
         }
         return new ResponseEntity<Message>(HttpStatus.NOT_ACCEPTABLE);
