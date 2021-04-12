@@ -2,6 +2,7 @@ package com.gucarsoft.sanalkutuphane.service;
 
 import com.gucarsoft.sanalkutuphane.model.Room;
 import com.gucarsoft.sanalkutuphane.repository.RoomRepository;
+import com.gucarsoft.sanalkutuphane.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class RoomServiceImpl implements RoomService{
     @Autowired
     RoomRepository roomRepo;
 
+    @Autowired
+    UserRepository userRepo;
+
     @Override
     public ResponseEntity<Room> create(Room room) {
         return new ResponseEntity<Room>(roomRepo.save(room), HttpStatus.OK);
@@ -23,6 +27,16 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public ResponseEntity<Room> getById(Long id) {
         return new ResponseEntity<Room>(roomRepo.findById(id).orElse(null), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Long> getUserCount() {
+        return new ResponseEntity<Long>((long) userRepo.findAllByOnlineTrue().size(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Long> getUserCountById(Long id) {
+        return new ResponseEntity<Long>((long) userRepo.findAllByLastRoom(id).size(), HttpStatus.OK);
     }
 
     @Override

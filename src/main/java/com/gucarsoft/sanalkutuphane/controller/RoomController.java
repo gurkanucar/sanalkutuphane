@@ -36,6 +36,16 @@ public class RoomController {
         return service.deleteById(id);
     }
 
+    @GetMapping("/userCount/{id}")
+    public ResponseEntity<Long> getUserCount(@PathVariable Long id) {
+        return service.getUserCountById(id);
+    }
+
+    @GetMapping("/userCount")
+    public ResponseEntity<Long> getUserCount() {
+        return service.getUserCount();
+    }
+
 
     @GetMapping("/available/true/{id}")
     public ResponseEntity<Room> makeAvailableTrue(@PathVariable Long id) {

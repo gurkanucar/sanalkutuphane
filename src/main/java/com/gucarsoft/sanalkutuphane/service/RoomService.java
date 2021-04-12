@@ -9,6 +9,8 @@ public interface RoomService {
 
     ResponseEntity<Room> create(Room room);
     ResponseEntity<Room> getById(Long id);
+    ResponseEntity<Long> getUserCountById(Long id);
+    ResponseEntity<Long> getUserCount();
     ResponseEntity<List<Room>> getAllRooms();
     ResponseEntity<Room> deleteById(Long id);
     ResponseEntity<Room> makeReadOnly(Long id);
