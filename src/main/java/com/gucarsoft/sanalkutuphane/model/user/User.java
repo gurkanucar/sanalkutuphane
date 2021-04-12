@@ -2,7 +2,9 @@ package com.gucarsoft.sanalkutuphane.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gucarsoft.sanalkutuphane.model.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Column;
@@ -20,7 +22,8 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
-  
+    @JsonIgnore
+    @Setter(AccessLevel.NONE)
     private String password;
 
     private boolean online;

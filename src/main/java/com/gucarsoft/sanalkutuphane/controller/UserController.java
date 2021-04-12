@@ -1,6 +1,7 @@
 package com.gucarsoft.sanalkutuphane.controller;
 
 import com.gucarsoft.sanalkutuphane.helper.JwtUtil;
+import com.gucarsoft.sanalkutuphane.model.user.CreateUserModel;
 import com.gucarsoft.sanalkutuphane.model.user.JwtRequestModel;
 import com.gucarsoft.sanalkutuphane.model.user.User;
 import com.gucarsoft.sanalkutuphane.repository.UserRepository;
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody User user) {
+    public ResponseEntity register(@RequestBody CreateUserModel user) {
         return userService.register(user);
     }
 

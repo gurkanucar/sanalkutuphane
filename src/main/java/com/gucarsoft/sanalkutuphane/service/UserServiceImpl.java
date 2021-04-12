@@ -1,6 +1,7 @@
 package com.gucarsoft.sanalkutuphane.service;
 
 import com.gucarsoft.sanalkutuphane.helper.JwtUtil;
+import com.gucarsoft.sanalkutuphane.model.user.CreateUserModel;
 import com.gucarsoft.sanalkutuphane.model.user.Role;
 import com.gucarsoft.sanalkutuphane.model.user.User;
 import com.gucarsoft.sanalkutuphane.repository.UserRepository;
@@ -25,20 +26,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> register(User user) {
-        User existingUsername = userRepo.findByUsername(user.getUsername());
-        if (existingUsername != null) {
+    public ResponseEntity<User> register(CreateUserModel createUserModel) {
+        User existingUser = userRepo.findByUsername(createUserModel.getUsername());
+        if (existingUser != null) {
             return new ResponseEntity("User already exist!", HttpStatus.CONFLICT);
         }
 
-        User existingEmail = userRepo.findByEmail(user.getEmail());
+        User existingEmail = userRepo.findByEmail(createUserModel.getEmail());
         if (existingEmail != null) {
             return new ResponseEntity("User already exist!", HttpStatus.CONFLICT);
         }
-
+        User user=new User();
+        user.setPassword(createUserModel.getPassword());
+        user.setEmail(createUserModel.getEmail());
+        user.setUsername(createUserModel.getUsername());
+        user.setCanSendMessage(true);
         user.setRole(Role.USER);
         user.setOnline(true);
         user.setLastRoom(0L);
+        user.setReportCount(0L);
         return new ResponseEntity<>(userRepo.save(user), HttpStatus.OK);
     }
 
