@@ -98,8 +98,16 @@ function onMessageReceived(payload) {
 
     if(message.messageType === 'JOIN' && message.room.id==roomID) {
         messageElement.classList.add('event-message');
-    } else if (message.messageType === 'LEAVE' && message.room.id==roomID) {
-        messageElement.classList.add('event-message');
+
+        var textElement = document.createElement('p');
+        var messageText = document.createTextNode(message.message);
+        textElement.appendChild(messageText);
+
+        messageElement.appendChild(textElement);
+
+        messageArea.appendChild(messageElement);
+        messageArea.scrollTop = messageArea.scrollHeight;
+
     } else if(message.messageType === 'CHAT' && message.room.id==roomID){
         messageElement.classList.add('chat-message');
 
@@ -114,7 +122,7 @@ function onMessageReceived(payload) {
         var usernameText = document.createTextNode(message.user.username);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
-    }
+
 
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.message);
@@ -124,6 +132,7 @@ function onMessageReceived(payload) {
 
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
+    }
 }
 
 
