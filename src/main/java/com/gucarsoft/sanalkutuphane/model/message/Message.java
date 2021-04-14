@@ -32,4 +32,15 @@ public class Message extends BaseEntity {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "message='" + message + '\'' +
+                ", file=" + file +
+                ", user=" + user +
+                ", reportCount=" + reportCount +
+                ", messageType=" + messageType +
+                ", room=" + room +
+                '}';
+    }
 }

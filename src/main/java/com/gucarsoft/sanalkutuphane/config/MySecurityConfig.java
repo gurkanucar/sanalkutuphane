@@ -34,7 +34,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .cors().disable()
                 .authorizeRequests()
-        .antMatchers("/api/user/**","/test").permitAll()
+        .antMatchers("/api/user/**","/test","/**").permitAll()
                 .antMatchers("/api/config/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().sessionManagement()

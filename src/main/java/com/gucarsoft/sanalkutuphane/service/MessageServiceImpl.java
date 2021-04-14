@@ -37,7 +37,7 @@ public class MessageServiceImpl implements MessageService {
         User user = userRepository.findByUsername(getAuthUserName());
         message.setUser(user);
 
-        if(room.isAvailable() && !room.isReadOnly()){
+        if(room.isAvailable() && !room.isReadOnly() && user.isCanSendMessage() && user.getReportCount()<10){
             user.setOnline(true);
             user.setLastRoom(room.getId());
             return new ResponseEntity<Message>(messageRepo.save(message), HttpStatus.OK);
